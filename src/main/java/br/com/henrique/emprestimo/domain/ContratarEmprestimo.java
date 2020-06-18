@@ -18,7 +18,7 @@ public class ContratarEmprestimo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer numeroContrato;
+    private String numeroContrato;
     private LocalDate dataContratacao;
     private Double valorContratado;
     private Integer quantidadeParcelas;

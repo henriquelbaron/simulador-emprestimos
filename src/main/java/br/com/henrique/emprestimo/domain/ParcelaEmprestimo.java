@@ -17,7 +17,7 @@ public class ParcelaEmprestimo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer numeroContrato;
+    private String numeroContrato;
     private Integer numeroDaParcela;
     private Double valorParcela;
     private LocalDate dataVencimento;

@@ -9,9 +9,14 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/simular-emprestimo")
@@ -43,16 +48,16 @@ public class SimularEmprestimoController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Realizar Simulação de Emprestimo")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<SimularEmprestimo> simularEmprestimo(@RequestBody SimulacaoEmprestimoDTO dto) {
+    public ResponseEntity<SimulacaoEmprestimoDTO> simularEmprestimo(@Valid @RequestBody SimulacaoEmprestimoDTO dto) {
         SimularEmprestimo simularEmprestimo = dto.dtoToObject();
         simularEmprestimo = simularEmprestimoService.save(simularEmprestimo);
-        return new ResponseEntity<>(simularEmprestimo, HttpStatus.CREATED);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Alterar Simulação")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Alterar Simulação")})
     @PutMapping("/{id}")
-    public ResponseEntity<SimularEmprestimo> change(@PathVariable Long id, @RequestBody SimulacaoEmprestimoDTO dto) {
+    public ResponseEntity<SimularEmprestimo> change(@PathVariable Long id, @Valid @RequestBody SimulacaoEmprestimoDTO dto) {
         if (!simularEmprestimoService.ifExists(id)) {
             return ResponseEntity.notFound().build();
         }
@@ -72,4 +77,5 @@ public class SimularEmprestimoController {
         simularEmprestimoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 }

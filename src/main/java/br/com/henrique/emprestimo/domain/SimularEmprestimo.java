@@ -2,9 +2,11 @@ package br.com.henrique.emprestimo.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -17,7 +19,7 @@ public class SimularEmprestimo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer numeroContrato;
+    private String numeroContrato;
     private LocalDate dataSimulacao;
     private LocalDate dataValidadeSimulacao;
     private Double valorContratado;

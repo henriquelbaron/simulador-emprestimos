@@ -13,10 +13,15 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    public Cliente findByCpf(Cliente cliente) {
+        Cliente retorno = clienteRepository.findByCpf(cliente.getCpf());
+        if (retorno == null) return cliente;
+        return retorno;
+    }
+
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
     }
-
 
     public Cliente findById(Long id) {
         return clienteRepository.findById(id).orElse(null);

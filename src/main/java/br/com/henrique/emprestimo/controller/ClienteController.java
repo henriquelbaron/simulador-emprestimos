@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,7 @@ public class ClienteController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Cadastrar Cliente")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Cliente> create(@RequestBody ClienteDTO dto) {
+    public ResponseEntity<Cliente> create(@Valid @RequestBody ClienteDTO dto) {
         Cliente cliente = clienteService.save(dto.dtoToObject());
         return new ResponseEntity<>(cliente, HttpStatus.CREATED);
     }
@@ -52,7 +53,7 @@ public class ClienteController {
     @ApiOperation(value = "Alterar Cliente")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Alterar Cliente")})
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> change(@PathVariable Long id, @RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> change(@Valid @PathVariable Long id, @RequestBody Cliente cliente) {
         if (!clienteService.ifExists(id)) {
             return ResponseEntity.notFound().build();
         }
