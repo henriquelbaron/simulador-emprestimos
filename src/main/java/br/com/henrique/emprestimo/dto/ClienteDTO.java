@@ -13,12 +13,10 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class ClienteDTO {
 
-    @NotBlank
     @CPF
     private String cpf;
     @NotBlank
     private String nome;
-    @NotBlank
     @Email
     private String email;
 

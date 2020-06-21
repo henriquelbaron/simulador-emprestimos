@@ -6,6 +6,8 @@ import br.com.henrique.emprestimo.util.UtilsDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,13 +28,16 @@ public class SimularEmprestimoService {
         return numeroContrato;
     }
 
-    private Double calcularValorParcela(Integer parcelas, Double valorContrato, Double taxaJuros) {
-        return valorContrato * (1 + (parcelas * taxaJuros)) / parcelas;
+    private BigDecimal calcularValorParcela(Integer parcelas, BigDecimal valorContrato, BigDecimal taxaJuros) {
+        BigDecimal parcelasBigDc = new BigDecimal(parcelas);
+        BigDecimal valorParcela = valorContrato.multiply(new BigDecimal(1).add(taxaJuros.multiply(parcelasBigDc)))
+                .divide(parcelasBigDc, MathContext.DECIMAL128);
+        return valorParcela;
     }
 
-    private Double calculaJuros(Integer parcelas, Double valorContrato) {
-        Double taxaJuros = valorContrato >= 1000 ? 0.30 : 0.18;
-        taxaJuros += parcelas > 12 ? 0.05 : 0;
+    private BigDecimal calculaJuros(Integer parcelas, BigDecimal valorContrato) {
+        BigDecimal taxaJuros = new BigDecimal(valorContrato.doubleValue() >= 1000 ? "0.30" : "0.18")
+                .add(new BigDecimal(parcelas > 12 ? "0.05" : "0"));
         return taxaJuros;
     }
 
@@ -47,14 +52,18 @@ public class SimularEmprestimoService {
     public SimularEmprestimo save(SimularEmprestimo entity) {
         entity.setCliente(clienteService.findByCpf(entity.getCliente()));
         String numeroContrato = gerarNumeroDoContrato();
-        Double taxaJuros = calculaJuros(entity.getQuantidadeParcelas(), entity.getValorContratado());
-        Double valorParcelas = calcularValorParcela(entity.getQuantidadeParcelas(), entity.getValorContratado(), taxaJuros);
+        BigDecimal taxaJuros = calculaJuros(entity.getQuantidadeParcelas(), entity.getValorContratado());
+        BigDecimal valorParcelas = calcularValorParcela(entity.getQuantidadeParcelas(), entity.getValorContratado(), taxaJuros);
         entity.setValorParcela(valorParcelas);
         entity.setTaxaJurosEmprestimo(taxaJuros);
         entity.setNumeroContrato(numeroContrato);
         entity.setDataSimulacao(LocalDate.now());
         entity.setDataValidadeSimulacao(LocalDate.now().plusDays(30));
         return simularEmprestimoRepository.save(entity);
+    }
+
+    public SimularEmprestimo findByNumeroContrato(String numeroContrato){
+        return simularEmprestimoRepository.findByNumeroContrato(numeroContrato);
     }
 
     public void delete(SimularEmprestimo entity) {

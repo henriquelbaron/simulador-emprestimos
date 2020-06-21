@@ -10,4 +10,6 @@ public interface SimularEmprestimoRepository extends JpaRepository<SimularEmpres
 
     @Query(value = "select Max(numero_contrato) from simular_emprestimo", nativeQuery = true)
     String pegaUltimoNumeroContrato();
+
+    SimularEmprestimo findByNumeroContrato(String numeroContrato);
 }

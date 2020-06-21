@@ -26,7 +26,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-//                .apis(RequestHandlerSelectors.basePackage("br.com.senac.usersystemservice.endpoint"))
+//                .apis(RequestHandlerSelectors.basePackage("br.com.henrique.emprestimo.controller"))
 //                .paths(PathSelectors.ant("/"))
                 .paths(PathSelectors.any())
                 .build()

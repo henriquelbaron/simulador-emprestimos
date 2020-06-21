@@ -1,11 +1,13 @@
 package br.com.henrique.emprestimo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -19,8 +21,11 @@ public class ParcelaEmprestimo implements Serializable {
     private Long id;
     private String numeroContrato;
     private Integer numeroDaParcela;
-    private Double valorParcela;
+    private BigDecimal valorParcela;
     private LocalDate dataVencimento;
     @ManyToOne
+    @JoinColumn(name = "emprestimo_id")
+    @JsonBackReference
     private ContratarEmprestimo emprestimo;
+
 }

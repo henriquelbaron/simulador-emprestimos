@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query(value = "select * from cliente where cpf = ?1", nativeQuery = true)
     Cliente findByCpf(String cpf);
 }
