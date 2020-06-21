@@ -36,7 +36,7 @@ public class SimularEmprestimoService {
     }
 
     private BigDecimal calculaJuros(Integer parcelas, BigDecimal valorContrato) {
-        BigDecimal taxaJuros = new BigDecimal(valorContrato.doubleValue() >= 1000 ? "0.30" : "0.18")
+        BigDecimal taxaJuros = new BigDecimal(valorContrato.doubleValue() > 1000 ? "0.30" : "0.18")
                 .add(new BigDecimal(parcelas > 12 ? "0.05" : "0"));
         return taxaJuros;
     }
