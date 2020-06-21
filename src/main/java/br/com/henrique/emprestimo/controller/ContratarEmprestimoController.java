@@ -35,16 +35,17 @@ public class ContratarEmprestimoController {
     public ResponseEntity<ContratarEmprestimo> findAll(@PathVariable String numero_contrato) {
         ContratarEmprestimo emprestimo = emprestimoService.findByNumeroContrato(numero_contrato);
 
-        if (emprestimo != null) return ResponseEntity.ok(emprestimo);
-
-        return ResponseEntity.notFound().build();
+        if (emprestimo == null) {
+            throw new RuntimeException("Numero de Contrato Inválido ou Inexistente");
+        }
+        return ResponseEntity.ok(emprestimo);
     }
 
     @ApiOperation(value = "Realizar Emprestimo")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Realizar Emprestimo")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ContratarEmprestimo> emprestimo(@Valid @RequestBody EmprestimoDTO dto)  {
+    public ResponseEntity<ContratarEmprestimo> emprestimo(@Valid @RequestBody EmprestimoDTO dto) {
         ContratarEmprestimo emprestimo = emprestimoService.save(dto.dtoToObject());
         return new ResponseEntity<>(emprestimo, HttpStatus.CREATED);
     }

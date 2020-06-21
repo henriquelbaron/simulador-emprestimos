@@ -36,9 +36,11 @@ public class SimularEmprestimoController {
     public ResponseEntity<SimularEmprestimo> findAll(@PathVariable String numeroContrato) {
         SimularEmprestimo simularEmprestimo = simularEmprestimoService.findByNumeroContrato(numeroContrato);
 
-        if (simularEmprestimo != null) return ResponseEntity.ok(simularEmprestimo);
+        if (simularEmprestimo == null) {
+            throw new RuntimeException("Numero de Contrato Inválido ou Inexistente");
+        }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(simularEmprestimo);
     }
 
     @ApiOperation(value = "Realizar Simulação de Emprestimo")

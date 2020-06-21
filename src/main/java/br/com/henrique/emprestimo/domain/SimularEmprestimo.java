@@ -26,7 +26,7 @@ public class SimularEmprestimo implements Serializable {
     private Integer quantidadeParcelas;
     private BigDecimal valorParcela;
     private BigDecimal taxaJurosEmprestimo;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Cliente cliente;
 
     public ContratarEmprestimo simulacaoToContrato() {
