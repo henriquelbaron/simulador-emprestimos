@@ -25,8 +25,8 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-//                .apis(RequestHandlerSelectors.basePackage("br.com.henrique.emprestimo.controller"))
+//                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("br.com.henrique.emprestimo.controller"))
 //                .paths(PathSelectors.ant("/"))
                 .paths(PathSelectors.any())
                 .build()
@@ -40,7 +40,7 @@ public class SwaggerConfig {
                 .title("Desafio Desenvolvimento API")
                 .description("Desafio Desenvolvimento API - Cresol Confederacao")
                 .version("1.0.0")
-                .contact(new Contact("GitHub", "https://github.com/willbigas/UserSystemService", "senac@email.com"))
+                .contact(new Contact("Henrique Lemes Baron", "https://github.com/henriquelbaron/simulador-emprestimos", "hike.lemes@gmail.com"))
                 .build();
     }
 
